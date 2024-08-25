@@ -1,50 +1,154 @@
 ---
-interface Props {
-	title: string;
-}
-
-const { title } = Astro.props;
+const { resources = [] } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="en" class="dark:bg-gray-900">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Resources</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Satoshi:wght@400;700&display=swap');
+      
+      body {
+        font-family: 'Satoshi', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        background-color: #f4f4f4;
+      }
+
+      .dark body {
+        background-color: #1a202c;
+        color: #e2e8f0;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+        padding: 1rem;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+
+      nav .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 60%;
+      }
+
+      nav svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+        cursor: pointer;
+      }
+
+      main {
+        margin-top: 80px;
+        max-width: 800px;
+        padding: 2rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .card {
+        background-color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s;
+      }
+
+      .dark .card {
+        background-color: #2d3748;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h2 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.25rem;
+        color: #2d3748;
+      }
+
+      .dark .card h2 {
+        color: #e2e8f0;
+      }
+
+      .card p {
+        margin: 0.5rem 0;
+        color: #4a5568;
+      }
+
+      .dark .card p {
+        color: #a0aec0;
+      }
+
+      .card a {
+        display: inline-block;
+        margin-top: 1rem;
+        color: #3182ce;
+        text-decoration: none;
+      }
+
+      .dark .card a {
+        color: #63b3ed;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-container">
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 3a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2H5zm14 2v14H5V5h14z"></path>
+          </svg>
+        </a>
+        <button onclick="document.documentElement.classList.toggle('dark')" class="nav-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m8.66-9.34h1m-16 0h1m12.02 5.66l.71.71m-14.14 0l.71-.71m12.02-12.02l.71.71m-14.14 0l.71-.71m9.34 9.34a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+        </button>
+        <a href="https://github.com/Naainz/Student-Resources" target="_blank" rel="noopener noreferrer" class="nav-item">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.303 3.438 9.8 8.207 11.387.6.11.793-.26.793-.577v-2.165c-3.338.726-4.042-1.61-4.042-1.61-.546-1.385-1.333-1.753-1.333-1.753-1.089-.744.083-.729.083-.729 1.205.084 1.838 1.24 1.838 1.24 1.07 1.835 2.807 1.305 3.493.997.107-.774.418-1.305.762-1.605-2.665-.302-5.466-1.332-5.466-5.93 0-1.31.468-2.382 1.236-3.222-.124-.303-.536-1.524.118-3.176 0 0 1.008-.323 3.301 1.23a11.486 11.486 0 013.003-.404c1.018.005 2.042.137 3.003.404 2.293-1.553 3.3-1.23 3.3-1.23.654 1.652.243 2.873.118 3.176.77.84 1.236 1.912 1.236 3.222 0 4.61-2.803 5.625-5.473 5.922.43.372.823 1.102.823 2.222v3.293c0 .32.19.694.8.577C20.565 21.798 24 17.3 24 12c0-6.63-5.37-12-12-12z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </nav>
+
+    <main>
+      <h1 class="text-3xl font-bold mb-8">Student Resources</h1>
+
+      {resources.length > 0 ? (
+        resources.map((resource) => (
+          <div class="card">
+            <h2>{resource.title}</h2>
+            <p>{resource.description}</p>
+            <a href={resource.link} target="_blank" rel="noopener noreferrer">
+              Visit Resource
+            </a>
+          </div>
+        ))
+      ) : (
+        <p>No resources available.</p>
+      )}
+    </main>
+  </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-</style>
