@@ -1,9 +1,13 @@
 module.exports = {
 	content: [
-	  './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+	  './src/**/*.{astro,html,js,md,mdx}',
 	],
 	theme: {
-	  extend: {},
+	  extend: {
+		fontFamily: {
+		  satoshi: ['Satoshi', 'sans-serif'],
+		},
+	  },
 	},
 	plugins: [],
   };
